@@ -1,29 +1,30 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+<!-- resources/views/profile/edit.blade.php -->
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
+@section('content')
+    <div class="container">
+        <h1>Bewerk je Profiel</h1>
+
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PATCH')
+
+            <div class="form-group">
+                <label for="name">Naam</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}">
             </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}">
             </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+            <div class="form-group">
+                <label for="profile_photo">Profielfoto</label>
+                <input type="file" name="profile_photo" id="profile_photo" class="form-control">
             </div>
-        </div>
+
+            <button type="submit" class="btn btn-primary">Opslaan</button>
+        </form>
     </div>
-</x-app-layout>
+@endsection
