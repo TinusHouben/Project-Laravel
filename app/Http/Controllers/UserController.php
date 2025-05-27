@@ -35,7 +35,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('admin.users')->with('success', 'Gebruiker aangemaakt.');
+        return redirect()->route('admin.users.index')->with('success', 'Gebruiker aangemaakt.');
     }
 
     // Promote user tot admin

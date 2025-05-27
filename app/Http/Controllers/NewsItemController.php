@@ -11,31 +11,37 @@ class NewsItemController extends Controller
     // De middleware is nu niet meer nodig in de constructor
     public function __construct()
     {
-        // De middleware wordt nu direct in de routes ingesteld
+        // Middleware wordt in de routes gedefinieerd, niet meer in de controller zelf
     }
 
     // Toon alle nieuwsitems, gesorteerd op publicatiedatum
     public function index()
     {
+        // Verkrijg alle nieuwsitems gesorteerd op publicatiedatum
         $newsItems = NewsItem::orderByDesc('published_at')->get();
+
+        // Retourneer de weergave van de index met de nieuwsitems
         return view('news.index-news', compact('newsItems'));  // index-news.blade.php
     }
 
     // Toon een specifiek nieuwsitem op de detailpagina
     public function show(NewsItem $newsItem)
     {
+        // Retourneer de weergave van het specifieke nieuwsitem
         return view('news.show-news', compact('newsItem'));  // show-news.blade.php
     }
 
     // Toon het formulier om een nieuw nieuwsitem toe te voegen
     public function create()
     {
+        // Retourneer de weergave van het formulier voor het maken van een nieuwsitem
         return view('news.create-news');  // create-news.blade.php
     }
 
     // Sla een nieuw nieuwsitem op
     public function store(Request $request)
     {
+        // Valideer de ingevoerde gegevens
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'required|image|max:2048',
@@ -54,18 +60,21 @@ class NewsItemController extends Controller
             'published_at' => $validated['published_at'],
         ]);
 
+        // Redirect naar de nieuwsindex met een succesbericht
         return redirect()->route('news.index')->with('success', 'Nieuwsitem toegevoegd!');
     }
 
     // Toon het formulier om een bestaand nieuwsitem te bewerken
     public function edit(NewsItem $newsItem)
     {
+        // Retourneer het formulier voor het bewerken van een nieuwsitem
         return view('news.edit-news', compact('newsItem'));  // edit-news.blade.php
     }
 
     // Werk een bestaand nieuwsitem bij
     public function update(Request $request, NewsItem $newsItem)
     {
+        // Valideer de ingevoerde gegevens
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048', // Afbeelding is optioneel voor update
@@ -83,13 +92,14 @@ class NewsItemController extends Controller
             $newsItem->image_path = $path; // Update het pad naar de nieuwe afbeelding
         }
 
-        // Werk het nieuwsitem bij
+        // Werk het nieuwsitem bij met de gevalideerde gegevens
         $newsItem->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'published_at' => $validated['published_at'],
         ]);
 
+        // Redirect naar de nieuwsindex met een succesbericht
         return redirect()->route('news.index')->with('success', 'Nieuwsitem bijgewerkt!');
     }
 
@@ -102,6 +112,7 @@ class NewsItemController extends Controller
         // Verwijder het nieuwsitem uit de database
         $newsItem->delete();
 
+        // Redirect naar de nieuwsindex met een succesbericht
         return redirect()->route('news.index')->with('success', 'Nieuwsitem verwijderd!');
     }
 }

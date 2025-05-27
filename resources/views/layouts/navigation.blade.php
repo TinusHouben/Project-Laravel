@@ -21,6 +21,13 @@
                     <x-nav-link :href="route('contactform.show')" :active="request()->routeIs('contactform.show')">
                         {{ __('Contact') }}
                     </x-nav-link>
+
+                    <!-- Profile Link for Authenticated Users -->
+                    @auth
+                        <x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
+                            {{ __('Profile') }}
+                        </x-nav-link>
+                    @endauth
                 </div>
             </div>
 
@@ -78,6 +85,13 @@
             <x-responsive-nav-link :href="route('contactform.show')" :active="request()->routeIs('contactform.show')">
                 {{ __('Contact') }}
             </x-responsive-nav-link>
+
+            <!-- Profile Link for Authenticated Users (Mobile) -->
+            @auth
+                <x-responsive-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->

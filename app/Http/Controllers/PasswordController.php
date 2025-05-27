@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class PasswordController extends Controller
 {
     // Toon het wachtwoord wijzigingsformulier
     public function edit()
     {
+        // Zorg ervoor dat de juiste view wordt geladen
         return view('auth.passwords.edit');
     }
 
@@ -34,6 +34,7 @@ class PasswordController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Geef een succesbericht terug na het bijwerken van het wachtwoord
         return redirect()->route('profile.show')->with('status', 'Wachtwoord succesvol bijgewerkt!');
     }
 }

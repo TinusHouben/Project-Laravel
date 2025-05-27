@@ -41,15 +41,13 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',  // cast is_admin naar boolean
-            'birthday' => 'date',     // handig om birthday ook te casten
-        ];
-    }
+protected $casts = [
+    'email_verified_at' => 'datetime',
+    'password' => 'hashed',
+    'is_admin' => 'boolean',
+    'birthday' => 'date',
+];
+
 
     /**
      * Check if user is admin.

@@ -4,7 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\ContactController; // Vergeet deze import niet!
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PasswordController;  // Vergeet deze import niet!
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.uploadPhoto');
+    
+    // Voeg hier de route voor wachtwoord wijzigen toe
+    Route::get('/password/edit', [PasswordController::class, 'edit'])->name('password.edit');
+    Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
 });
 
 // Admin routes
@@ -61,7 +66,9 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     // Nieuwsbeheer
     Route::get('/admin/news/create', [NewsItemController::class, 'create'])->name('news.create');
     Route::post('/admin/news', [NewsItemController::class, 'store'])->name('news.store');
-    Route::get('/admin/news/{newsItem}/edit', [NewsItemController::class, 'edit'])->name('news.edit');
+
+    // Route aanpassen van PATCH naar GET voor het bewerken van nieuwsitems
+    Route::get('/admin/news/{newsItem}/edit', [NewsItemController::class, 'edit'])->name('news.edit'); // GET voor bewerken
     Route::patch('/admin/news/{newsItem}', [NewsItemController::class, 'update'])->name('news.update');
     Route::delete('/admin/news/{newsItem}', [NewsItemController::class, 'destroy'])->name('news.destroy');
 
