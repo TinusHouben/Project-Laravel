@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController; // Vergeet deze import niet!
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -25,10 +26,11 @@ Route::get('/teams', function () {
 // Publieke FAQ-pagina (voor iedereen toegankelijk)
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
-// Contact route, vereist authenticatie
-Route::get('/contact', function () {
-    return view('contact');
-})->middleware(['auth'])->name('contact');
+// Contactpagina tonen (voor iedereen toegankelijk) - via controller
+Route::get('/contactform', [ContactController::class, 'show'])->name('contactform.show');
+
+// Contactformulier versturen (voor iedereen toegankelijk)
+Route::post('/contactform', [ContactController::class, 'send'])->name('contactform.send');
 
 // Publieke profielpagina, toegankelijk voor iedereen
 Route::get('/user/{user}', [ProfileController::class, 'showPublic'])->name('profile.showPublic');
@@ -70,7 +72,10 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/faq/items/create', [FaqController::class, 'createItem'])->name('faq.items.create');
     Route::post('/admin/faq/items', [FaqController::class, 'storeItem'])->name('faq.items.store');
 
-    // Je kunt hier nog routes toevoegen voor bewerken, verwijderen FAQ categories/items
+    // Testformulier route (staat nu in admin groep, wil je dat?)
+    Route::get('/testform', function () {
+        return view('testform');
+    })->name('testform');
 });
 
 // Nieuwsroutes voor gewone gebruikers
