@@ -9,10 +9,10 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || !auth()->user()->is_admin) {
-            abort(403, 'Je hebt geen toegang tot deze pagina.');
+        if (auth()->check() && auth()->user()->is_admin) {
+            return $next($request);
         }
 
-        return $next($request);
+        abort(403, 'Je hebt geen toegang tot deze pagina.');
     }
 }
