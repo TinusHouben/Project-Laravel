@@ -22,6 +22,11 @@
                         {{ __('Contact') }}
                     </x-nav-link>
 
+                    <!-- Toegevoegde nieuwspagina link -->
+                    <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
+                        {{ __('Nieuws') }}
+                    </x-nav-link>
+
                     <!-- Profile Link for Authenticated Users -->
                     @auth
                         <x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
@@ -84,6 +89,11 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('contactform.show')" :active="request()->routeIs('contactform.show')">
                 {{ __('Contact') }}
+            </x-responsive-nav-link>
+
+            <!-- Toegevoegde nieuwspagina link voor mobiel -->
+            <x-responsive-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
+                {{ __('Nieuws') }}
             </x-responsive-nav-link>
 
             <!-- Profile Link for Authenticated Users (Mobile) -->

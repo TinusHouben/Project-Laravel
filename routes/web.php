@@ -85,11 +85,14 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     })->name('testform');
 });
 
-// Nieuwsroutes voor gewone gebruikers
-Route::middleware('auth')->group(function () {
-    Route::get('/news', [NewsItemController::class, 'index'])->name('news.index');
-    Route::get('/news/{newsItem}', [NewsItemController::class, 'show'])->name('news.show');
-});
+// Publieke route om alle profielen te zien
+Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
+
+
+
+// Nieuwsroutes voor gewone gebruikers (publiekelijk toegankelijk, geen auth middleware)
+Route::get('/news', [NewsItemController::class, 'index'])->name('news.index');
+Route::get('/news/{newsItem}', [NewsItemController::class, 'show'])->name('news.show');
 
 // Authenticatie routes
 require __DIR__.'/auth.php';
